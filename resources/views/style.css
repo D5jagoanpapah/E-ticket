@@ -1,0 +1,20 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: rgb(78, 19, 204);
+}
+.wrapper {
+    width: 456;
+    background: rgb(20, 117, 169);;
+    color: #fff;
+}
+

@@ -16,7 +16,7 @@
             {{ csrf_field() }}
             <input type="hidden" name="_method" value="put" />
             <div class="mb-3">
-                <label for="id_pemesanan" class="form-label">ID Pemesanan</label>
+                <label for="id_pemesanan" class="form-label">Nama</label>
                 <select name="id_pemesanan" id="id_pemesanan" class="form-select" required>
                     @foreach($pemesanans as $pemesanan)
                         <option value="{{ $pemesanan->id_pemesanan }}" {{ $pembayaran->id_pemesanan == $pemesanan->id_pemesanan ? 'selected' : '' }}>

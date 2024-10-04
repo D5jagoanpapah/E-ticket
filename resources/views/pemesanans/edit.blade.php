@@ -25,7 +25,7 @@
             <input type="hidden" name="_method" value="put" />
             <div class="row">
                 <div class="col-md-6 mb-3">
-                    <label for="id_customer" class="form-label">ID Customer</label>
+                    <label for="id_customer" class="form-label">Nama</label>
                     <input type="text" class="form-control" id="id_customer" name="id_customer" value="{{ old('id_customer', $pemesanan->id_customer) }}" required>
                 </div>
                 <div class="col-md-6 mb-3">

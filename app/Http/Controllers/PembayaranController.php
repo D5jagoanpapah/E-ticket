@@ -53,7 +53,7 @@ class PembayaranController extends Controller
             'jumlah_pembayaran' => 'required|numeric|min:0',
             'tanggal_pembayaran' => 'required|date',
             'metode_pembayaran' => 'required|string|max:20',
-            'status_pembayaran' => 'required|in:berhasil,gagal',
+            'status_pembayaran' => 'nullable|in:berhasil,gagal',
         ]);
 
         if ($validator->fails()) {
@@ -102,7 +102,7 @@ class PembayaranController extends Controller
             'jumlah_pembayaran' => 'required|numeric|min:0',
             'tanggal_pembayaran' => 'required|date',
             'metode_pembayaran' => 'required|string|max:255',
-            'status_pembayaran' => 'required|in:berhasil,gagal',
+            'status_pembayaran' => 'nullable|in:berhasil,gagal',
         ]);
 
         if ($validator->fails()) {

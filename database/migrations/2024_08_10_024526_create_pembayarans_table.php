@@ -18,7 +18,7 @@ class CreatePembayaransTable extends Migration
             $table->unsignedInteger('id_pemesanan');
             $table->decimal('jumlah_pembayaran', 20, 2);
             $table->date('tanggal_pembayaran');
-            $table->string('metode_pembayaran');
+            $table->enum('metode_pembayaran',['cash','transfer']);
             $table->enum('status_pembayaran', ['berhasil', 'gagal']);
             $table->timestamps();
         });

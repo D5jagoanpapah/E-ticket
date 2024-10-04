@@ -8,11 +8,23 @@ use Illuminate\Support\Facades\Validator;
 
 class PaketController extends Controller
 {
-    public function index()
-    {
-        $pakets = Paket::all();
-        return view('pakets.index', compact('pakets'));
+    public function index(Request $request)
+{
+    $query = Paket::query();
+
+    // Cek jika ada parameter pencarian
+    if ($request->has('search')) {
+        $search = $request->input('search');
+        $query->where('nama_paket', 'LIKE', "%{$search}%")
+              ->orWhere('deskripsi', 'LIKE', "%{$search}%")
+              ->orWhere('lokasi', 'LIKE', "%{$search}%");
     }
+
+    $pakets = $query->get();
+
+    return view('pakets.index', compact('pakets'));
+}
+
 
     public function create()
     {

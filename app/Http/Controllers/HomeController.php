@@ -25,4 +25,10 @@ class HomeController extends Controller
     {
         return view('welcome');
     }
+
+    protected function authenticated(Request $request, $user)
+{
+    return redirect()->route('home'); // Pastikan ini mengarah ke rute home yang Anda buat
+}
+
 }

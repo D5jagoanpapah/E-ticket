@@ -8,6 +8,10 @@ use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\Carbon;
+use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\HomeController;
 
 
 
@@ -23,14 +27,24 @@ use App\Http\Controllers\DashboardController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    // Data yang akan dikirim ke view
+    $bulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+    $data_pendapatan = [1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 11000, 12000];
 
+    // Mengirim data ke view
+    return view('welcome', compact('bulan', 'data_pendapatan'));
+});
 
 Route::resource('pakets', PaketController::class);
 Route::resource('customers', CustomerController::class);
 Route::resource('pemesanans', PemesananController::class);
 Route::resource('pembayarans', PembayaranController::class);
+
+Route::get('/pakets', [PaketController::class, 'index'])->name('pakets.index');
+
+Route::get('/home', [WelcomeController::class, 'index'])->name('home');
+
+Route::put('/pemesanans/{id}/updateStatus', [PemesananController::class, 'updateStatus'])->name('pemesanan.updateStatus');
 
 Route::get('/getPemesananData/{id}', [PembayaranController::class, 'getPemesananData']);
 
@@ -72,7 +86,5 @@ Route::middleware(['auth', 'role:user'])->group(function () {
 Route::get('/unauthorized', function () {
     return view('unauthorized'); // Pastikan view ini ada
 });
-
-Route::get('/pakets', [PaketController::class, 'index'])->name('pakets.index');
 
 

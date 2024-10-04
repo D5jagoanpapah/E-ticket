@@ -16,7 +16,7 @@
         <form action="{{ route('pembayarans.store') }}" method="POST">
             {{ csrf_field() }}
             <div class="mb-3">
-                <label for="id_pemesanan" class="form-label">ID Pemesanan</label>
+                <label for="id_pemesanan" class="form-label">Nama</label>
                 <select name="id_pemesanan" id="id_pemesanan" class="form-select" required>
                     <option value="" disabled selected>Pilih Pemesanan</option>
                     @foreach($pemesanans as $pemesanan)
@@ -36,8 +36,13 @@
             </div>
             <div class="mb-3">
                 <label for="metode_pembayaran" class="form-label">Metode Pembayaran</label>
-                <input type="text" name="metode_pembayaran" id="metode_pembayaran" class="form-control" required>
+                <select name="metode_pembayaran" id="metode_pembayaran" class="form-select" required>
+                    <option value="cash">Cash</option>
+                    <option value="transfer">Transfer</option>
+                </select>
             </div>
+            <!-- Hanya tampilkan field status pemesanan jika pengguna adalah admin -->
+            @if (auth()->user() && auth()->user()->role == 'admin')
             <div class="mb-3">
                 <label for="status_pembayaran" class="form-label">Status Pembayaran</label>
                 <select name="status_pembayaran" id="status_pembayaran" class="form-select" required>
@@ -45,6 +50,7 @@
                     <option value="gagal">Gagal</option>
                 </select>
             </div>
+            @endif
             <button type="submit" class="btn btn-primary">Simpan</button>
             <a href="{{ route('pembayarans.index') }}" class="btn btn-secondary">Keluar</a>
         </form>

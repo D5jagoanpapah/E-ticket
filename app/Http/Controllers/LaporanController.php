@@ -11,11 +11,21 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class LaporanController extends Controller
 {
-    public function index()
-    {
-        // Logic untuk menampilkan laporan
-        return view('laporan');  // Pastikan file view 'laporan.blade.php' ada di folder 'resources/views'
-    }
+    public function index(Request $request)
+{
+    // Set default values for startDate and endDate if not provided
+    $startDate = $request->input('start_date', now()->startOfMonth()->toDateString());
+    $endDate = $request->input('end_date', now()->toDateString());
+
+    // Fetch the data between the start and end dates
+    $data = Pemesanan::with(['customer', 'pembayaran'])
+        ->whereBetween('tanggal_pemesanan', [$startDate, $endDate])
+        ->get();
+
+    // Pass the data and the date filters to the view
+    return view('laporan', compact('data', 'startDate', 'endDate'));
+}
+
     /**
      * Ekspor data ke file Excel.
      *
@@ -57,7 +67,7 @@ class LaporanController extends Controller
                 ->whereBetween('tanggal_pemesanan', [$startDate, $endDate])
                 ->get();
         }
-
+        $data = YourModel::with(['customer', 'paket', 'pembayaran'])->get();
         // Tampilkan view dengan data
         return view('laporan', compact('data', 'startDate', 'endDate'));
     }

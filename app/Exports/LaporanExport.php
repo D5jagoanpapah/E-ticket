@@ -33,27 +33,29 @@ class LaporanExport implements FromCollection, WithHeadings
      * @return Collection
      */
     public function collection()
-    {
-        // Query data dengan join antara tabel customers, pemesanans, dan pembayarans
-        return Customer::join('pemesanans', 'customers.id_customer', '=', 'pemesanans.id_customer')
-            ->join('pembayarans', 'pemesanans.id_pemesanan', '=', 'pembayarans.id_pemesanan')
-            ->select(
-                'customers.nama',
-                'customers.nomor_telepon',
-                'customers.jenis_kelamin',
-                'customers.nomor_paspor',
-                'pemesanans.id_paket',
-                'pemesanans.tanggal_pemesanan',
-                'pemesanans.jumlah_peserta',
-                'pembayarans.jumlah_pembayaran',
-                'pembayarans.tanggal_pembayaran',
-                'pembayarans.metode_pembayaran',
-                'pembayarans.status_pembayaran'
-            )
-            // Filter berdasarkan tanggal pemesanan
-            ->whereBetween('pemesanans.tanggal_pemesanan', [$this->startDate, $this->endDate])
-            ->get();
-    }
+{
+    // Query data with join between customers, pemesanans, pembayarans, and pakets
+    return Customer::join('pemesanans', 'customers.id_customer', '=', 'pemesanans.id_customer')
+        ->join('pembayarans', 'pemesanans.id_pemesanan', '=', 'pembayarans.id_pemesanan')
+        ->join('pakets', 'pemesanans.id_paket', '=', 'pakets.id_paket')
+        ->select(
+            'customers.nama',
+            'customers.nomor_telepon',
+            'customers.alamat',
+            'customers.jenis_kelamin',
+            'pakets.nama_paket',
+            'pemesanans.tanggal_pemesanan',
+            'pemesanans.jumlah_peserta',
+            'pembayarans.jumlah_pembayaran',
+            'pembayarans.tanggal_pembayaran',
+            'pembayarans.metode_pembayaran',
+            'pembayarans.status_pembayaran'
+        )
+        // Filter based on pemesanans date
+        ->whereBetween('pemesanans.tanggal_pemesanan', [$this->startDate, $this->endDate])
+        ->get();
+}
+
 
     /**
      * Tambahkan header kolom untuk file Excel.
@@ -65,9 +67,9 @@ class LaporanExport implements FromCollection, WithHeadings
         return [
             'Nama',
             'Nomor Telepon',
+            'Alamat',
             'Jenis Kelamin',
-            'Nomor Paspor',
-            'ID Paket',
+            'Nama Paket',
             'Tanggal Pemesanan',
             'Jumlah Peserta',
             'Jumlah Pembayaran',

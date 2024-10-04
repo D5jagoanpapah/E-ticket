@@ -84,7 +84,7 @@
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th>Nama Pemesanan</th>
+                        <th>Nama Pemesan</th>
                         <th>Jumlah Pembayaran</th>
                         <th>Tanggal Pembayaran</th>
                         <th>Metode Pembayaran</th>
@@ -97,18 +97,18 @@
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $pembayaran->pemesanan->customer ? $pembayaran->pemesanan->customer->nama : 'Customer tidak ditemukan' }}</td>
-                            <td>{{ $pembayaran->jumlah_pembayaran }}</td>
+                            <td>{{ isset($pembayaran) ? 'Rp. ' . number_format($pembayaran->jumlah_pembayaran, 2, ',', '.') : '-' }}</td>
                             <td>{{ $pembayaran->tanggal_pembayaran }}</td>
                             <td>{{ $pembayaran->metode_pembayaran }}</td>
                             <td>{{ $pembayaran->status_pembayaran }}</td>
                             <td>
-                                <a href="{{ route('pembayarans.show', $pembayaran->id_pembayaran) }}" class="btn btn-info">
-                                    <i class="fas fa-info-circle"></i>
+                                <a href="{{ route('pembayarans.edit', $pembayaran->id_pembayaran) }}" class="btn btn-warning" title="Edit">
+                                    <i class="fas fa-edit"></i>
                                 </a>
                                 <form action="{{ route('pembayarans.destroy', $pembayaran->id_pembayaran) }}" method="POST" style="display:inline;">
                                     {{ csrf_field() }}
                                     {{ method_field('DELETE') }}
-                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus?')">
+                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus?')" title="Hapus">
                                         <i class="fas fa-trash-alt"></i>
                                     </button>
                                 </form>

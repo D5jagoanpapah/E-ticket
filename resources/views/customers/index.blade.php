@@ -66,6 +66,9 @@
             padding: 5px 10px; /* Kurangi padding untuk membuat tombol lebih kecil */
             font-size: 0.875rem; /* Sesuaikan ukuran teks */
         }
+        .input-group {
+            max-width: 250px; /* Mengatur lebar maksimum untuk input pencarian */
+        }
     </style>
 </head>
 <body>
@@ -76,13 +79,19 @@
     <div class="container">
     @if(auth()->user()->role === 'admin')
         <h1>Daftar Pelanggan</h1>
-        <a href="{{ route('customers.create') }}" class="btn btn-primary">Tambah Data Pelanggan</a>
-        
+        <div class="d-flex justify-content-between align-items-center mb-3">
+    <a href="{{ route('customers.create') }}" class="btn btn-primary">Tambah Data Pelanggan</a>
+    <form action="{{ route('customers.index') }}" method="GET" class="input-group" style="width: 250px;">
+        <input type="text" name="search" class="form-control" placeholder="Cari Pelanggan" aria-label="Cari Pelanggan">
+        <button class="btn btn-outline-secondary" type="submit">Cari</button>
+    </form>
+</div>
         @if (session('success'))
             <div class="alert alert-success mt-3">
                 {{ session('success') }}
             </div>
         @endif
+        <div class="table-responsive">
         <div class="table-container mt-3">
             <table class="table table-bordered">
                 <thead>
@@ -118,21 +127,27 @@
                         <img src="{{ asset('storage/'.$customer->ktp_photo) }}" class="rounded" style="width:50px">
                         </td>
                         <td>
-                            <a href="{{ route('customers.edit', $customer->id_customer) }}" class="btn btn-warning">
-                                <i class="fas fa-edit"></i>
-                            </a>
-                            <form action="{{ route('customers.destroy', $customer->id_customer) }}" method="POST" style="display:inline-block;">
-                                {{ csrf_field() }}
-                                {{ method_field('DELETE') }}
-                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus?')">
-                                    <i class="fas fa-trash-alt"></i>
-                                </button>
-                            </form>
+                            <div class="d-flex gap-2">
+                                <a href="{{ route('customers.show', $customer->id_customer) }}" class="btn btn-info btn-sm d-flex align-items-center justify-content-center" title="Lihat" style="width: 32px; height: 32px;">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="{{ route('customers.edit', $customer->id_customer) }}" class="btn btn-warning btn-sm d-flex align-items-center justify-content-center" title="Edit" style="width: 32px; height: 32px;">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <form action="{{ route('customers.destroy', $customer->id_customer) }}" method="POST" style="display:inline-block;">
+                                    {{ csrf_field() }}
+                                    {{ method_field('DELETE') }}
+                                    <button type="submit" class="btn btn-danger btn-sm d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;" onclick="return confirm('Yakin ingin menghapus?')" title="Hapus">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                     @endforeach
                 </tbody>
             </table>
+        </div>
             @else
         <div class="alert alert-warning">
             Anda tidak memiliki akses untuk melihat daftar pelanggan.

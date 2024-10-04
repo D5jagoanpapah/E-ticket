@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 
 class Customer extends Model
 {
-    use HasFactory;
+    use HasFactory, Notifiable;
     protected $primaryKey = 'id_customer';
     public $incrementing = true;
 
@@ -39,5 +40,14 @@ class Customer extends Model
     public function pemesanans()
     {
         return $this->hasMany(Pemesanan::class, 'id_customer', 'id_customer');
+    }
+
+    public function routeNotificationForDatabase($notification)
+    {
+        // Here you can return the data that you want to store in the database
+        return [
+            'pemesanan_id' => $this->id, // Assuming you want to link the notification to the customer
+            'message' => "Status pemesanan telah diperbarui.", // Custom message
+        ];
     }
 }

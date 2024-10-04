@@ -87,7 +87,7 @@
                     @enderror
                 </div>
                 <div class="col-md-6 mb-3">
-                    <label for="paspor_photo" class="form-label">Foto Paspor</label>
+                    <label for="paspor_photo" class="form-label">Foto Paspor(Opsional)</label>
                     <input type="file" class="form-control @error('paspor_photo') is-invalid @enderror" name="paspor_photo">
                     @error('paspor_photo')
                         <div class="invalid-feedback">{{ $message }}</div>

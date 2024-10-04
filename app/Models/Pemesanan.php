@@ -19,6 +19,8 @@ class Pemesanan extends Model
         'catatan',
     ];
 
+    // protected $guarded = ['id'];
+
     public function customer()
     {
         return $this->belongsTo(Customer::class, 'id_customer', 'id_customer');

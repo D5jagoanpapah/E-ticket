@@ -24,14 +24,20 @@
             {{ csrf_field() }}
             <div class="row">
                 <div class="col-md-6 mb-3">
-                    <label for="id_customer" class="form-label">ID Customer</label>
-                    <input type="text" class="form-control" id="id_customer" name="id_customer" value="{{ old('id_customer') }}" required>
+                    <label for="id_customer" class="form-label">Nama</label>
+                    <select class="form-control" id="id_customer" name="id_customer" value="{{ old('id_customer') }}" required>
+                    @foreach ($customers as $customer)
+                            <option value="{{ $customer->id_customer }}">{{ $customer->nama }}</option>
+                    @endforeach
+                    </select>
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="id_paket" class="form-label">Paket</label>
                     <select class="form-control" id="id_paket" name="id_paket" required>
                         @foreach ($pakets as $paket)
-                            <option value="{{ $paket->id_paket }}">{{ $paket->nama_paket }}</option>
+                        <option value="{{ $paket->id_paket }}">
+                            {{ $paket->nama_paket }} - Tersedia: {{ $paket->ketersediaan }}
+                        </option>
                         @endforeach
                     </select>
                 </div>
@@ -46,21 +52,32 @@
                     <input type="number" class="form-control" id="jumlah_peserta" name="jumlah_peserta" required>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label for="status_pemesanan" class="form-label">Status Pemesanan</label>
-                    <select class="form-control" id="status_pemesanan" name="status_pemesanan" required>
-                        <option value="Menunggu">Menunggu</option>
-                        <option value="Dikonfirmasi">Dikonfirmasi</option>
-                    </select>
-                </div>
-                <div class="col-md-6 mb-3">
+            <div class="col-md-6 mb-3">
                     <label for="catatan" class="form-label">Catatan</label>
                     <textarea class="form-control" id="catatan" name="catatan"></textarea>
                 </div>
             </div>
+            <div class="row">
+                <!-- Hanya tampilkan field status pemesanan jika pengguna adalah admin -->
+            @if (auth()->user() && auth()->user()->role == 'admin')
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="status_pemesanan" class="form-label">Status Pemesanan</label>
+                        <select class="form-control @error('status_pemesanan') is-invalid @enderror" id="status_pemesanan" name="status_pemesanan" required>
+                            <option value="Menunggu">Menunggu</option>
+                            <option value="Dikonfirmasi">Dikonfirmasi</option>
+                        </select>
+                        @error('status_pemesanan')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+            @endif
+            <div class="row">
+            <div class="col-md-12 text-end">
             <button type="submit" class="btn btn-maroon">Simpan</button>
             <a href="{{ route('pemesanans.index') }}" class="btn btn-secondary">Keluar</a>
+    </div>
         </form>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

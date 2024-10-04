@@ -12,12 +12,22 @@ class CustomerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         // Pastikan hanya admin yang bisa mengakses
     if (auth()->user()->role === 'admin') {
         // Ambil semua pelanggan
-        $customers = Customer::all(); // Asumsi Anda memiliki model Customer
+        $query = Customer::query(); // Asumsi Anda memiliki model Customer
+         // Cek apakah ada input pencarian
+         if ($request->has('search') && $request->input('search') != '') {
+            $search = $request->input('search');
+            // Filter pelanggan berdasarkan nama atau email
+            $query->where('nama', 'LIKE', "%$search%")
+                  ->orWhere('email', 'LIKE', "%$search%");
+        }
+
+        // Ambil hasil pencarian atau semua pelanggan jika tidak ada pencarian
+        $customers = $query->get();
         return view('customers.index', compact('customers'));
     }
     
@@ -85,23 +95,17 @@ class CustomerController extends Controller
      * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function show(Customer $customer)
-    {
-        $customer = Customer::findOrFail($id);
-        return view('customers.show', compact('customer'));
-    }
+    public function show($id)
+{
+    $customer = Customer::findOrFail($id);
+    return view('customers.show', compact('customer'));
+}
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Customer  $customer
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $customer = Customer::findOrFail($id);
-        return view('customers.edit', compact('customer'));
-    }
+public function edit($id)
+{
+    $customer = Customer::findOrFail($id);
+    return view('customers.edit', compact('customer'));
+}
 
     /**
      * Update the specified resource in storage.

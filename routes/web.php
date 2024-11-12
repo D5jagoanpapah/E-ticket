@@ -14,7 +14,6 @@ use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\HomeController;
 
 
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes

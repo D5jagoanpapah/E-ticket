@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Validator;
 
 class PaketController extends Controller
 {
+
+
+    
     public function index(Request $request)
 {
     $query = Paket::query();

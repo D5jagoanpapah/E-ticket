@@ -47,7 +47,7 @@
             </div>
         </div>
 
-        <!-- Grafik pendapatan -->
+        {{-- <!-- Grafik pendapatan -->
         <h2 class="mt-4">Grafik Pendapatan Bulanan</h2>
         <canvas id="pendapatanChart" class="mt-2"></canvas>
 
@@ -77,6 +77,6 @@
                     }
                 }
             });
-        </script>
+        </script> --}}
     </div>
 @endsection
